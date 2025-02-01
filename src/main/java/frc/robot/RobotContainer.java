@@ -16,6 +16,7 @@ import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj.PS4Controller;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.PS4Controller.Button;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OIConstants;
@@ -73,6 +74,13 @@ public class RobotContainer {
         .whileTrue(new RunCommand(
             () -> m_robotDrive.setX(),
             m_robotDrive));
+  }
+
+  public void postTelemetry() {
+    SmartDashboard.putNumber("gyroscope angle", m_robotDrive.getHeading());
+    SmartDashboard.putNumber("Xaxis", -m_driverController.getLeftY());
+    SmartDashboard.putNumber("Yaxis", -m_driverController.getLeftX());
+    SmartDashboard.putNumber("Zaxis", -m_driverController.getRightX());
   }
 
   /**
