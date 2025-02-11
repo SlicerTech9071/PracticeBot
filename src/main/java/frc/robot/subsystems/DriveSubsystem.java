@@ -185,8 +185,8 @@ public class DriveSubsystem extends SubsystemBase {
    * @return the robot's heading in degrees, from -180 to 180
    */
   public double getHeading() {
-    //return Rotation2d.fromDegrees(m_gyro.getAngle(IMUAxis.kZ)).getDegrees();
-    return m_gyro.getAngle();
+    return Rotation2d.fromDegrees(m_gyro.getAngle()).getDegrees();
+    //return m_gyro.getAngle();
   }
 
   /**
