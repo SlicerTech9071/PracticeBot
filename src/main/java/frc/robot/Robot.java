@@ -81,14 +81,12 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousPeriodic() {}
 
-  // private final AHRS m_gyro = new AHRS(NavXComType.kMXP_SPI);
   @Override
   public void teleopInit() {
     // This makes sure that the autonomous stops running when
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
     // this line or comment it out.
-    // m_gyro.reset();
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
