@@ -11,6 +11,7 @@ public final class Configs {
         public static final SparkMaxConfig drivingConfig = new SparkMaxConfig();
         public static final SparkMaxConfig turningConfig = new SparkMaxConfig();
 
+
         static {
             // Use module constants to calculate conversion factors and feed forward gain.
             double drivingFactor = ModuleConstants.kWheelDiameterMeters * Math.PI
@@ -52,5 +53,20 @@ public final class Configs {
                     .positionWrappingEnabled(true)
                     .positionWrappingInputRange(0, turningFactor);
         }
+    }
+
+    public static final class Elevator {
+
+        public static final SparkMaxConfig elevatorConfig = new SparkMaxConfig();
+
+        static {
+
+                elevatorConfig
+                        .idleMode(IdleMode.kBrake)
+                        .smartCurrentLimit(50);
+
+
+        }
+
     }
 }

@@ -33,7 +33,8 @@ public final class Constants {
     public static final double kDirectionSlewRate = 1.2; // radians per second
     public static final double kMagnitudeSlewRate = 1.8; // percent per second (1 = 100%)
 
-    
+    public static final double kElevatorSpeed = 2;
+
     // Chassis configuration
     public static final double kTrackWidth = Units.inchesToMeters(24.5);
     // Distance between centers of right and left wheels on robot
@@ -62,6 +63,9 @@ public final class Constants {
     public static final int kFrontRightTurningCanId = 14;
     public static final int kRearRightTurningCanId = 16;
 
+    public static final int rightElevatorCanId = 6;
+    public static final int leftElecatorCanId = 7;
+
     public static final boolean kGyroReversed = false;
   }
 
@@ -85,6 +89,9 @@ public final class Constants {
   public static final class OIConstants {
     public static final int kDriverControllerPort = 0;
     public static final double kDriveDeadband = 0.50;
+
+    public static final int kOperatorControllerPort = 1;
+    public static final double kOperatorDeadband = 0.5;
   }
 
   public static final class AutoConstants {

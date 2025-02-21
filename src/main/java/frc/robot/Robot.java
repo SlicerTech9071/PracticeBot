@@ -4,13 +4,12 @@
 
 package frc.robot;
 
-import com.studica.frc.AHRS;
-import com.studica.frc.AHRS.NavXComType;
+//import com.studica.frc.AHRS;
+//import com.studica.frc.AHRS.NavXComType;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
