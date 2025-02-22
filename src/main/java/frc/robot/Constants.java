@@ -33,7 +33,7 @@ public final class Constants {
     public static final double kDirectionSlewRate = 1.2; // radians per second
     public static final double kMagnitudeSlewRate = 1.8; // percent per second (1 = 100%)
 
-    public static final double kElevatorSpeed = 2;
+    public static final double kElevatorSpeed = 5; //RPM
 
     // Chassis configuration
     public static final double kTrackWidth = Units.inchesToMeters(24.5);

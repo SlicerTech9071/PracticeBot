@@ -36,14 +36,14 @@ import java.util.List;
  */
 public class RobotContainer {
   // The robot's subsystems
-  private final DriveSubsystem m_robotDrive = new DriveSubsystem();
+  private final DriveSubsystem m_robotDrive = new DriveSubsystem();  
   private final ElevatorSubsystem m_elevator = new ElevatorSubsystem();
   
   boolean elevatorManual = false;
   // The driver's controller
   XboxController m_driverController = new XboxController(OIConstants.kDriverControllerPort);
   XboxController m_operatorController = new XboxController(OIConstants.kOperatorControllerPort);
-  
+
   //PS4Controller m_driverController = new PS4Controller(OIConstants.kDriverControllerPort);
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -84,15 +84,15 @@ public class RobotContainer {
           () -> m_robotDrive.zeroHeading(),
             m_robotDrive));
     
-
-    new JoystickButton(m_operatorController, XboxController.Button.kRightBumper.value)
-        .whileTrue(new RunCommand(
-          () -> m_elevator.ElevatorUp(),
-           m_elevator));
-    new JoystickButton(m_operatorController, XboxController.Button.kLeftBumper.value)
-        .whileTrue(new RunCommand(
-          () -> m_elevator.ElevatorDown(),
-           m_elevator));
+            new JoystickButton(m_operatorController, XboxController.Button.kRightBumper.value)
+            .whileTrue(new RunCommand(
+              () -> m_elevator.ElevatorUp(),
+               m_elevator));
+        new JoystickButton(m_operatorController, XboxController.Button.kLeftBumper.value)
+            .whileTrue(new RunCommand(
+              () -> m_elevator.ElevatorDown(),
+               m_elevator));
+    
   
           }
 
