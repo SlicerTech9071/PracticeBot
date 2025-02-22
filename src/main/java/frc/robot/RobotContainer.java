@@ -13,6 +13,8 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.PS4Controller;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.PS4Controller.Button;
@@ -35,6 +37,9 @@ import java.util.List;
  * (including subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
+  
+  NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
+  
   // The robot's subsystems
   private final DriveSubsystem m_robotDrive = new DriveSubsystem();  
   private final ElevatorSubsystem m_elevator = new ElevatorSubsystem();
@@ -97,10 +102,15 @@ public class RobotContainer {
           }
 
   public void postTelemetry() {
+    
     SmartDashboard.putNumber("gyroscope angle", m_robotDrive.getHeading());
     SmartDashboard.putNumber("Xaxis", -m_driverController.getLeftY());
     SmartDashboard.putNumber("Yaxis", -m_driverController.getLeftX());
     SmartDashboard.putNumber("Zaxis", -m_driverController.getRightX());
+  
+    SmartDashboard.putNumber("LimeLightX", table.getEntry("tx").getDouble(0));
+    SmartDashboard.putNumber("LimeLightY", table.getEntry("ty").getDouble(0));
+
   }
 
   /**
