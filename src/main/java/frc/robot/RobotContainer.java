@@ -101,11 +101,10 @@ public class RobotContainer {
           () -> m_elevator.ShootOut(),
             m_elevator));
 
-      
         
     new JoystickButton(m_driverController, XboxController.Button.kA.value)
         .whileTrue(new RunCommand(
-            () -> m_robotDrive.Center(0.1, 0.9,0.35, 17.5),
+            () -> m_robotDrive.Center(0.2, 0.9,0.35, 17.5),
               m_robotDrive));
           }
 

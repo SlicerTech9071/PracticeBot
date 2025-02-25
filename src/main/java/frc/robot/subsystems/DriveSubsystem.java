@@ -217,6 +217,9 @@ public class DriveSubsystem extends SubsystemBase {
     tx = table.getEntry("tx").getDouble(0.0);
     ty = table.getEntry("ta").getDouble(0.0);
 
+    if (tx == 0 || ty == 0){
+      return;
+    }
 
     if (Math.abs(tx) >= xThresh){
         m_tx = Math.tanh(tx/4) * xConstant; 
