@@ -15,9 +15,7 @@ import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
-import edu.wpi.first.wpilibj.PS4Controller;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.PS4Controller.Button;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
@@ -80,25 +78,35 @@ public class RobotContainer {
    * {@link JoystickButton}.
    */
   private void configureButtonBindings() {
-    new JoystickButton(m_driverController, Button.kR1.value)
-        .whileTrue(new RunCommand(
-            () -> m_robotDrive.setX(),
-            m_robotDrive));
     new JoystickButton(m_driverController, XboxController.Button.kLeftStick.value)
         .whileTrue(new RunCommand( 
           () -> m_robotDrive.zeroHeading(),
             m_robotDrive));
     
-            new JoystickButton(m_operatorController, XboxController.Button.kRightBumper.value)
-            .whileTrue(new RunCommand(
-              () -> m_elevator.ElevatorUp(),
-               m_elevator));
-        new JoystickButton(m_operatorController, XboxController.Button.kLeftBumper.value)
-            .whileTrue(new RunCommand(
-              () -> m_elevator.ElevatorDown(),
-               m_elevator));
+    new JoystickButton(m_operatorController, XboxController.Button.kRightBumper.value)
+        .whileTrue(new RunCommand(
+          () -> m_elevator.ElevatorUp(),
+            m_elevator));
+    new JoystickButton(m_operatorController, XboxController.Button.kLeftBumper.value)
+        .whileTrue(new RunCommand(
+          () -> m_elevator.ElevatorDown(),
+             m_elevator));
     
-  
+    new JoystickButton(m_operatorController, XboxController.Button.kX.value)
+        .whileTrue(new RunCommand(
+          () -> m_elevator.SuckIn(),
+            m_elevator));
+    new JoystickButton(m_operatorController, XboxController.Button.kB.value)
+        .whileTrue(new RunCommand(
+          () -> m_elevator.ShootOut(),
+            m_elevator));
+
+      
+        
+    new JoystickButton(m_driverController, XboxController.Button.kA.value)
+        .whileTrue(new RunCommand(
+            () -> m_robotDrive.Center(0.1, 0.9,0.35, 17.5),
+              m_robotDrive));
           }
 
   public void postTelemetry() {

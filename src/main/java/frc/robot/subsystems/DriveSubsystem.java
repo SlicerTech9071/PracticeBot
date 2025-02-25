@@ -18,6 +18,8 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableInstance;
 // import edu.wpi.first.wpilibj.ADIS16470_IMU;
 // import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 // import edu.wpi.first.wpilibj.I2C;
@@ -28,6 +30,13 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 
 public class DriveSubsystem extends SubsystemBase {
+  
+  NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
+
+
+  double tx;
+  double ty;
+  
   // Create MAXSwerveModules
   private final MAXSwerveModule m_frontLeft = new MAXSwerveModule(
       DriveConstants.kFrontLeftDrivingCanId,
@@ -198,4 +207,28 @@ public class DriveSubsystem extends SubsystemBase {
     //return m_gyro.getRate(IMUAxis.kZ) * (DriveConstants.kGyroReversed ? -1.0 : 1.0);
     return m_gyro.getRate() * (DriveConstants.kGyroReversed ? -1.0 : 1.0);
   }
+
+  public void Center(double xConstant, double xThresh, double yConstant, double yThresh){
+
+    double m_tx = 0;
+    double m_ty = 0;
+
+
+    tx = table.getEntry("tx").getDouble(0.0);
+    ty = table.getEntry("ta").getDouble(0.0);
+
+
+    if (Math.abs(tx) >= xThresh){
+        m_tx = Math.tanh(tx/4) * xConstant; 
+      }
+    if (Math.abs(ty) <= yThresh){
+        m_ty = Math.tanh(10/ty) * yConstant;
+      }
+
+    
+      drive(m_ty, m_tx * -1, 0, false);
+
+  }
+
+
 }

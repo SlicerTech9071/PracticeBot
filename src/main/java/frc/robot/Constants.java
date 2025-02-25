@@ -35,6 +35,8 @@ public final class Constants {
 
     public static final double kElevatorSpeed = 5; //RPM
 
+    public static final double kShootSpeed = 5; //RPM
+
     // Chassis configuration
     public static final double kTrackWidth = Units.inchesToMeters(24.5);
     // Distance between centers of right and left wheels on robot
@@ -63,8 +65,16 @@ public final class Constants {
     public static final int kFrontRightTurningCanId = 14;
     public static final int kRearRightTurningCanId = 16;
 
+    //Looking from the back of the robot
     public static final int rightElevatorCanId = 6;
     public static final int leftElecatorCanId = 7;
+
+    //Looking from the back of the robot
+    public static final int rightShootCanId = 8;
+    public static final int leftShootCanId = 9;
+
+    public static final int rightHeadCanId = 4;
+    public static final int leftHeadCanId = 5;
 
     public static final boolean kGyroReversed = false;
   }

@@ -64,6 +64,9 @@ public final class Configs {
                 elevatorConfig
                         .idleMode(IdleMode.kBrake)
                         .smartCurrentLimit(50);
+                elevatorConfig.closedLoop
+                        .pid(1, 0, 0)
+                        .outputRange(-1, 1);
 
 
         }
