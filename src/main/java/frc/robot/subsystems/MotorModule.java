@@ -8,11 +8,11 @@ import com.revrobotics.spark.SparkBase.ControlType;
 import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkBase.ResetMode;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
+import com.revrobotics.spark.config.SparkMaxConfig;
 
-import frc.robot.Configs;
 import frc.robot.Constants;
 
-public class ElevatorModule {
+public class MotorModule {
     
     private SparkMax m_RightSparkMax;
     private SparkMax m_LeftSparkMax;
@@ -23,7 +23,7 @@ public class ElevatorModule {
     private SparkClosedLoopController m_RightClosedLoopController;
     private SparkClosedLoopController m_LeftClosedLoopController;
 
-    public ElevatorModule(int RightCANId, int LeftCANId){
+    public MotorModule(int RightCANId, int LeftCANId, SparkMaxConfig Config){
 
         m_RightSparkMax = new SparkMax(RightCANId, MotorType.kBrushless);
         m_LeftSparkMax = new SparkMax(LeftCANId, MotorType.kBrushless);
@@ -34,30 +34,31 @@ public class ElevatorModule {
         m_RightClosedLoopController = m_RightSparkMax.getClosedLoopController();
         m_LeftClosedLoopController = m_LeftSparkMax.getClosedLoopController();
 
-        m_RightSparkMax.configure(Configs.Elevator.elevatorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-        m_LeftSparkMax.configure(Configs.Elevator.elevatorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+        m_RightSparkMax.configure(Config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+        m_LeftSparkMax.configure(Config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
 
     }
 
     //1 to go up
     //-1 to go down
-    public void ChangeElevatorState(int UpTrue){
+    public void ChangeState(int Clockwise, double Speed){
 
-        m_RightClosedLoopController.setReference(Constants.DriveConstants.kElevatorSpeed * UpTrue,ControlType.kVelocity);
-        m_LeftClosedLoopController.setReference(Constants.DriveConstants.kElevatorSpeed * UpTrue * -1, ControlType.kVelocity);
-
-    }
-    public void ChangeShootState(int Clockwise){
-
-        m_RightClosedLoopController.setReference(Constants.DriveConstants.kShootSpeed * Clockwise, ControlType.kVelocity);
-        m_LeftClosedLoopController.setReference(Constants.DriveConstants.kShootSpeed * Clockwise, ControlType.kVelocity);
+        m_RightClosedLoopController.setReference(Speed * Clockwise, ControlType.kVelocity);
+        m_LeftClosedLoopController.setReference(Speed * Clockwise * -1, ControlType.kVelocity);
 
 
     }
 
-    public double[] getPos(){
-        double PosArray[] = {m_RightEncoder.getPosition(),m_LeftEncoder.getPosition()};
-        return PosArray;
+    // public double[] getPos(){
+    //     double PosArray[] = {m_RightEncoder.getPosition(),m_LeftEncoder.getPosition()};
+    //     return PosArray;
+    // }
+
+    public void StopMotor(){
+
+        m_RightClosedLoopController.setReference(0, ControlType.kVelocity);
+        m_LeftClosedLoopController.setReference(0, ControlType.kVelocity);
+
     }
 }

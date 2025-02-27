@@ -66,6 +66,12 @@ public class RobotContainer {
                 -MathUtil.applyDeadband(m_driverController.getRightX(), OIConstants.kDriveDeadband),
                 true),
             m_robotDrive));
+
+    m_elevator.setDefaultCommand(
+        
+        new RunCommand(
+            () -> m_elevator.ElevatorDrive(m_operatorController.getXButton(), m_operatorController.getBButton()),
+          m_elevator));
   }
 
   /**
@@ -82,26 +88,7 @@ public class RobotContainer {
         .whileTrue(new RunCommand( 
           () -> m_robotDrive.zeroHeading(),
             m_robotDrive));
-    
-    new JoystickButton(m_operatorController, XboxController.Button.kRightBumper.value)
-        .whileTrue(new RunCommand(
-          () -> m_elevator.ElevatorUp(),
-            m_elevator));
-    new JoystickButton(m_operatorController, XboxController.Button.kLeftBumper.value)
-        .whileTrue(new RunCommand(
-          () -> m_elevator.ElevatorDown(),
-             m_elevator));
-    
-    new JoystickButton(m_operatorController, XboxController.Button.kX.value)
-        .whileTrue(new RunCommand(
-          () -> m_elevator.SuckIn(),
-            m_elevator));
-    new JoystickButton(m_operatorController, XboxController.Button.kB.value)
-        .whileTrue(new RunCommand(
-          () -> m_elevator.ShootOut(),
-            m_elevator));
-
-        
+           
     new JoystickButton(m_driverController, XboxController.Button.kA.value)
         .whileTrue(new RunCommand(
             () -> m_robotDrive.Center(0.2, 0.9,0.35, 17.5),

@@ -65,11 +65,51 @@ public final class Configs {
                         .idleMode(IdleMode.kBrake)
                         .smartCurrentLimit(50);
                 elevatorConfig.closedLoop
-                        .pid(1, 0, 0)
+                        .pid(0.01, 0, 0.05)
+                        .velocityFF(1/473)
                         .outputRange(-1, 1);
 
 
         }
 
     }
+
+    public static final class Algae {
+
+        public static final SparkMaxConfig AlgaeIntakeConfig = new SparkMaxConfig();
+
+        static {
+
+                AlgaeIntakeConfig
+                        .idleMode(IdleMode.kBrake)
+                        .smartCurrentLimit(20);
+                AlgaeIntakeConfig.closedLoop
+                        .pid(0.04, 0, 0)
+                        .velocityFF(1/917)
+                        .outputRange(-1, 1);
+
+        }
+    
+        
+    }
+
+    public static final class Head {
+
+        public static final SparkMaxConfig HeadMotorConfig = new SparkMaxConfig();
+
+        static {
+
+                HeadMotorConfig
+                        .idleMode(IdleMode.kBrake)
+                        .smartCurrentLimit(50);
+                HeadMotorConfig.closedLoop
+                        .pid(0.04, 0, 0)
+                        .velocityFF(1/473)
+                        .outputRange(-1, 1);
+
+        }
+    
+        
+    }
+
 }
