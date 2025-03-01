@@ -26,10 +26,11 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 // import edu.wpi.first.wpilibj.SerialPort;
 // import edu.wpi.first.wpilibj.ADIS16470_IMU.IMUAxis;
 import frc.robot.Constants.DriveConstants;
+import frc.robot.classes.MAXSwerveModule;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 
-public class DriveSubsystem extends SubsystemBase {
+public class subSwerve extends SubsystemBase {
   
   NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
 
@@ -76,7 +77,7 @@ public class DriveSubsystem extends SubsystemBase {
       });
 
   /** Creates a new DriveSubsystem. */
-  public DriveSubsystem() {
+  public subSwerve() {
     // Usage reporting for MAXSwerve template
     HAL.report(tResourceType.kResourceType_RobotDrive, tInstances.kRobotDriveSwerve_MaxSwerve);
   }

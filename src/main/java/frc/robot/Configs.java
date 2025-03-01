@@ -63,7 +63,7 @@ public final class Configs {
 
                 elevatorConfig
                         .idleMode(IdleMode.kBrake)
-                        .smartCurrentLimit(50);
+                        .smartCurrentLimit(20);
                 elevatorConfig.closedLoop
                         .pid(0.01, 0, 0.05)
                         .velocityFF(1/473)

@@ -33,9 +33,9 @@ public final class Constants {
     public static final double kDirectionSlewRate = 1.2; // radians per second
     public static final double kMagnitudeSlewRate = 1.8; // percent per second (1 = 100%)
 
-    public static final double kElevatorSpeed = 1; //RPM
+    public static final double kElevatorSpeed = 0.1; //Percantage
 
-    public static final double kShootSpeed = 1; //RPM
+    public static final double kShootSpeed = 1; //Percantage
 
     // Chassis configuration
     public static final double kTrackWidth = Units.inchesToMeters(24.5);
@@ -120,6 +120,27 @@ public final class Constants {
   }
 
   public static final class NeoMotorConstants {
+
     public static final double kFreeSpeedRpm = 5676;
+  }
+
+  public static final class Elevator{
+    public static final int leftMotorID = 7;
+    public static final int rightMotorID = 6;
+  
+    public static final double elevatorSpeed = 0.45;  
+  }
+  public static final class IntakeArm{
+    public static final int leftMotorID = 5;
+    public static final int rightMotorID = 4;
+  
+    public static final double IntakeArmSpeed = 0.2;
+  }
+  public static final class IntakeWheels{
+    public static final int leftMotorID = 9;
+    public static final int rightMotorID = 8;
+    }
+  public static final class CoralWheel{
+    public static final int MotorID = 1;
   }
 }
