@@ -12,6 +12,7 @@ import com.studica.frc.AHRS.NavXComType;
 
 import edu.wpi.first.hal.HAL;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
@@ -42,6 +43,7 @@ public class subSwerve extends SubsystemBase {
   double oldDif;
   double newDif;
   int rClockwise; //1 for clockwise -1 for anti
+  double DifChange;
   // Create MAXSwerveModules
   private final MAXSwerveModule m_frontLeft = new MAXSwerveModule(
       DriveConstants.kFrontLeftDrivingCanId,
@@ -215,28 +217,33 @@ public class subSwerve extends SubsystemBase {
 
   public void Center(double xConstant, double xThresh, double yConstant, double yThresh, double rotConst, double rotThresh){
 
+    double difChangeThresh = 1;
+
     double m_tx = 0;
     double m_ty = 0;
     double m_tr = 0;
-    double DifChange = 0;
+
 
     oldDif = newDif;
-    newDif = LimelightHelpers.getT2DArray(getName())[12] - LimelightHelpers.getT2DArray(getName())[13];
- 
-    tx = LimelightHelpers.getTX(getName());
-    ty = LimelightHelpers.getTA(getName());
+
+    newDif = LimelightHelpers.getT2DArray("limelight")[12] - LimelightHelpers.getT2DArray("limelight")[13];
+  
+
+    tx = LimelightHelpers.getT2DArray("limelight")[4];
+    ty = LimelightHelpers.getTA("limelight");
     DifChange = oldDif - newDif;
 
-    if (tx == 0 || ty == 0 || newDif == 0){
+
+    if (tx == 0 || ty == 0){
       return;
     }
 
     if (newDif >= rotThresh){
-      if (DifChange == 0){
-        m_tr = 0.01;
+      if (Math.abs(DifChange) <= difChangeThresh){
+        m_tr = 0.1;
         rClockwise = 1;
       }
-      else if(DifChange > 0){
+      else if(DifChange > difChangeThresh){
         rClockwise = -rClockwise;
         m_tr = Math.tanh(DifChange * rClockwise) * rotConst;
       } else {
@@ -250,9 +257,10 @@ public class subSwerve extends SubsystemBase {
     if (Math.abs(ty) <= yThresh){
         m_ty = Math.tanh(10/ty) * yConstant;
       }
-
-    
       drive(m_ty, m_tx * -1, m_tr, false);
 
   }
-}
+
+
+  }
+
