@@ -20,6 +20,7 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import frc.robot.LimelightHelpers;
 // import edu.wpi.first.wpilibj.ADIS16470_IMU;
 // import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 // import edu.wpi.first.wpilibj.I2C;
@@ -38,6 +39,9 @@ public class subSwerve extends SubsystemBase {
   double tx;
   double ty;
   
+  double oldDif;
+  double newDif;
+  int rClockwise; //1 for clockwise -1 for anti
   // Create MAXSwerveModules
   private final MAXSwerveModule m_frontLeft = new MAXSwerveModule(
       DriveConstants.kFrontLeftDrivingCanId,
@@ -209,19 +213,37 @@ public class subSwerve extends SubsystemBase {
     return m_gyro.getRate() * (DriveConstants.kGyroReversed ? -1.0 : 1.0);
   }
 
-  public void Center(double xConstant, double xThresh, double yConstant, double yThresh){
+  public void Center(double xConstant, double xThresh, double yConstant, double yThresh, double rotConst, double rotThresh){
 
     double m_tx = 0;
     double m_ty = 0;
+    double m_tr = 0;
+    double DifChange = 0;
 
+    oldDif = newDif;
+    newDif = LimelightHelpers.getT2DArray(getName())[12] - LimelightHelpers.getT2DArray(getName())[13];
+ 
+    tx = LimelightHelpers.getTX(getName());
+    ty = LimelightHelpers.getTA(getName());
+    DifChange = oldDif - newDif;
 
-    tx = table.getEntry("tx").getDouble(0.0);
-    ty = table.getEntry("ta").getDouble(0.0);
-
-    if (tx == 0 || ty == 0){
+    if (tx == 0 || ty == 0 || newDif == 0){
       return;
     }
 
+    if (newDif >= rotThresh){
+      if (DifChange == 0){
+        m_tr = 0.01;
+        rClockwise = 1;
+      }
+      else if(DifChange > 0){
+        rClockwise = -rClockwise;
+        m_tr = Math.tanh(DifChange * rClockwise) * rotConst;
+      } else {
+        m_tr = Math.tanh(DifChange * rClockwise) * rotConst;
+      }
+    }
+  
     if (Math.abs(tx) >= xThresh){
         m_tx = Math.tanh(tx/4) * xConstant; 
       }
@@ -230,9 +252,7 @@ public class subSwerve extends SubsystemBase {
       }
 
     
-      drive(m_ty, m_tx * -1, 0, false);
+      drive(m_ty, m_tx * -1, m_tr, false);
 
   }
-
-
 }
