@@ -65,7 +65,7 @@ public class RobotContainer {
             m_robotDrive));
 
     driverOne.a().whileTrue(new InstantCommand(()->m_robotDrive.zeroHeading()));
-    driverOne.y().whileTrue(new RunCommand(() -> m_robotDrive.Center(0.1, 0.85, 0.2, 18), m_robotDrive));
+    driverOne.y().whileTrue(new RunCommand(() -> m_robotDrive.Center(0.1, 0.85, 0.2, 18, 0.01, 1), m_robotDrive));
   }
 
   private void ConfigureDriverTwo() {
@@ -79,11 +79,14 @@ public class RobotContainer {
 
   public void postTelemetry() {
 
-    SmartDashboard.putNumber("gyroscope angle", m_robotDrive.getHeading());
-    SmartDashboard.putNumber("LimeLightX", table.getEntry("tx").getDouble(0));
-    SmartDashboard.putNumber("LimeLightY", table.getEntry("ty").getDouble(0));
-    //SmartDashboard.putNumber("LimilightSkew", table.getEntry("t2d")[0].getAsDouble(0));
-
+    try {
+      SmartDashboard.putNumber("gyroscope angle", m_robotDrive.getHeading());
+      SmartDashboard.putNumber("LimeLightX", table.getEntry("tx").getDouble(0));
+      SmartDashboard.putNumber("LimeLightY", table.getEntry("ty").getDouble(0));
+      //SmartDashboard.putNumber("LimilightSkew", table.getEntry("t2d")[0].getAsDouble(0));
+    } catch (Exception e){
+      System.out.println("error");
+    }
   }
 
   public Command getAutonomousCommand() {

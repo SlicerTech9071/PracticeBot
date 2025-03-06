@@ -28,11 +28,13 @@ public class subElevator extends SubsystemBase {
 
     leftConfig
       .inverted(false)
-      .idleMode(IdleMode.kBrake);
+      .idleMode(IdleMode.kBrake)
+      .smartCurrentLimit(50);
 
     rightConfig
       .inverted(false)
-      .idleMode(IdleMode.kBrake);
+      .idleMode(IdleMode.kBrake)
+      .smartCurrentLimit(50);
 
     leftMotor.configure(leftConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
     rightMotor.configure(rightConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);

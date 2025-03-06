@@ -26,11 +26,13 @@ public class subIntakeArm extends SubsystemBase {
     leftConfig = new SparkMaxConfig();
     leftConfig
       .inverted(false)
-      .idleMode(IdleMode.kBrake);
+      .idleMode(IdleMode.kBrake)
+      .smartCurrentLimit(50);
     rightConfig = new SparkMaxConfig();
     rightConfig
       .inverted(false)
-      .idleMode(IdleMode.kBrake);
+      .idleMode(IdleMode.kBrake)
+      .smartCurrentLimit(50);
     leftMotor.configure(leftConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
     rightMotor.configure(leftConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
   }
