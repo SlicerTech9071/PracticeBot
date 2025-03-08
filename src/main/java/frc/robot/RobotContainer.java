@@ -34,6 +34,8 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import java.util.List;
 
+import com.pathplanner.lib.commands.PathPlannerAuto;
+
 public class RobotContainer {
 
   NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
@@ -44,6 +46,7 @@ public class RobotContainer {
   private final subElevator elevator = new subElevator();
   private final subIntakeArm intakeArm = new subIntakeArm();
   private final subIntakeWheels intakeWheels = new subIntakeWheels();
+
 
   // The driver's controller
   CommandXboxController driverOne = new CommandXboxController(OIConstants.kDriverControllerPort);
@@ -90,12 +93,17 @@ public class RobotContainer {
   }
   
   public Command getAutonomousCommand() {
-    return Commands.sequence(
-      // Drive forward
-      new RunCommand(() -> m_robotDrive.drive(0.5, 0, 0, false), m_robotDrive).withTimeout(1),
-      // Stop
-      new RunCommand(() -> m_robotDrive.drive(0, 0, 0, false), m_robotDrive).withTimeout(1)
-    );
+    
+    return new PathPlannerAuto("Auto1");
+    
+    // return Commands.sequence(
+    //   // Drive forward
+    //   new RunCommand(() -> m_robotDrive.drive(0.5, 0, 0, false), m_robotDrive).withTimeout(1),
+    //   // Stop
+    //   new RunCommand(() -> m_robotDrive.drive(0, 0, 0, false), m_robotDrive).withTimeout(1)
+    // );
+    
+    
     // // Create config for trajectory
     // TrajectoryConfig config = new TrajectoryConfig(
     //     AutoConstants.kMaxSpeedMetersPerSecond,

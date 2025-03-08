@@ -7,7 +7,6 @@ package frc.robot.subsystems;
 import edu.wpi.first.hal.FRCNetComm.tInstances;
 import edu.wpi.first.hal.FRCNetComm.tResourceType;
 
-import com.pathplanner.lib.config.RobotConfig;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.config.PIDConstants;
 import com.pathplanner.lib.config.RobotConfig;
@@ -17,7 +16,6 @@ import com.studica.frc.AHRS.NavXComType;
 
 import edu.wpi.first.hal.HAL;
 import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
@@ -40,16 +38,12 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class subSwerve extends SubsystemBase {
   
-  NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
 
 
   double tx;
   double ty;
-  
-  double oldDif;
-  double newDif;
-  int rClockwise; //1 for clockwise -1 for anti
-  double DifChange;
+  double ts;
+
   // Create MAXSwerveModules
   private final MAXSwerveModule m_frontLeft = new MAXSwerveModule(
       DriveConstants.kFrontLeftDrivingCanId,
@@ -88,13 +82,44 @@ public class subSwerve extends SubsystemBase {
           m_rearRight.getPosition()
       });
 
-  private RobotConfig robotConfig;
-
+  RobotConfig robotConfig;
 
   /** Creates a new DriveSubsystem. */
   public subSwerve() {
     // Usage reporting for MAXSwerve template
     HAL.report(tResourceType.kResourceType_RobotDrive, tInstances.kRobotDriveSwerve_MaxSwerve);
+ 
+  
+    try {
+      robotConfig = RobotConfig.fromGUISettings();
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+
+    AutoBuilder.configure(
+      this::getPose, // Robot pose supplier
+      this::resetOdometry, // Method to reset odometry (will be called if your auto has a starting pose)
+      this::getSpeeds, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
+      (speeds, feedforwards) -> autoDrive(speeds), // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds. Also optionally outputs individual module feedforwards
+      new PPHolonomicDriveController( // PPHolonomicController is the built in path following controller for holonomic drive trains
+        new PIDConstants(5.0, 0.0, 0.0), // Translation PID constants
+        new PIDConstants(5.0, 0.0, 0.0) // Rotation PID constants
+      ),
+      robotConfig, // The robot configuration
+      () -> {
+      // Boolean supplier that controls when the path will be mirrored for the red alliance
+      // This will flip the path being followed to the red side of the field.
+      // THE ORIGIN WILL REMAIN ON THE BLUE SIDE
+      var alliance = DriverStation.getAlliance();
+      if (alliance.isPresent()) {
+        return alliance.get() == DriverStation.Alliance.Red;
+      }
+      return false;
+      },
+      this // Reference to this subsystem to set requirements
+    );
+
+    
 
   }
 
@@ -110,6 +135,38 @@ public class subSwerve extends SubsystemBase {
             m_rearLeft.getPosition(),
             m_rearRight.getPosition()
         });
+    
+    /**
+    try {
+      robotConfig = RobotConfig.fromGUISettings();
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+
+    AutoBuilder.configure(
+      this::getPose, // Robot pose supplier
+      this::resetOdometry, // Method to reset odometry (will be called if your auto has a starting pose)
+      this::getSpeeds, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
+      (speeds, feedforwards) -> autoDrive(speeds), // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds. Also optionally outputs individual module feedforwards
+      new PPHolonomicDriveController( // PPHolonomicController is the built in path following controller for holonomic drive trains
+        new PIDConstants(5.0, 0.0, 0.0), // Translation PID constants
+        new PIDConstants(5.0, 0.0, 0.0) // Rotation PID constants
+      ),
+      robotConfig, // The robot configuration
+      () -> {
+      // Boolean supplier that controls when the path will be mirrored for the red alliance
+      // This will flip the path being followed to the red side of the field.
+      // THE ORIGIN WILL REMAIN ON THE BLUE SIDE
+      var alliance = DriverStation.getAlliance();
+      if (alliance.isPresent()) {
+        return alliance.get() == DriverStation.Alliance.Red;
+      }
+      return false;
+      },
+      this // Reference to this subsystem to set requirements
+    );
+
+    */
   }
 
   /**
@@ -119,6 +176,37 @@ public class subSwerve extends SubsystemBase {
    */
   public Pose2d getPose() {
     return m_odometry.getPoseMeters();
+  }
+
+  public void autoDrive(ChassisSpeeds chassisSpeeds){
+    var swerveModuleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(chassisSpeeds);
+    m_frontLeft.setDesiredState(swerveModuleStates[0]);
+    m_frontRight.setDesiredState(swerveModuleStates[1]);
+    m_rearLeft.setDesiredState(swerveModuleStates[2]);
+    m_rearRight.setDesiredState(swerveModuleStates[3]);
+  }
+
+    /**
+   * Get the states of the drivetrain in an array of SwerveModuleStates.
+   * 
+   * @return The array.
+   */
+  public SwerveModuleState[] getStates() {
+    return new SwerveModuleState[] {
+      m_frontLeft.getState(),
+      m_frontRight.getState(),
+      m_rearLeft.getState(),
+      m_rearRight.getState()
+    };
+  }
+
+  /**
+   * Runs forward kinematics to get the robot-relative chassis speeds.
+   * 
+   * @return ChassisSpeeds containing the speeds.
+   */
+  public ChassisSpeeds getSpeeds() {
+    return DriveConstants.kDriveKinematics.toChassisSpeeds(getStates());
   }
 
   /**
@@ -225,54 +313,33 @@ public class subSwerve extends SubsystemBase {
     return m_gyro.getRate() * (DriveConstants.kGyroReversed ? -1.0 : 1.0);
   }
 
-  public void Center(double xConstant, double xThresh, double yConstant, double yThresh, double rotConst, double rotThresh){
-
-    double difChangeThresh = 1;
+  public void Center(double xConstant, double xThresh, double yConstant, double yThresh, double rotConstant, double rotThresh){
 
     double m_tx = 0;
     double m_ty = 0;
-    double m_tr = 0;
+    double m_ts = 0;
 
-
-    oldDif = newDif;
-
-    newDif = LimelightHelpers.getT2DArray("limelight")[12] - LimelightHelpers.getT2DArray("limelight")[13];
-  
-
-    tx = LimelightHelpers.getTX("limelight");
-    ty = LimelightHelpers.getTA("limelight");
-    DifChange = oldDif - newDif;
-
-
+    tx = LimelightHelpers.getTX(getName());
+    ty = LimelightHelpers.getTA(getName());
+    ts = LimelightHelpers.getT2DArray(getName())[16];
     if (tx == 0 || ty == 0){
-      m_ty = 0;
-      m_tx = 0;
       return;
     }
 
-    // if (newDif >= rotThresh){
-    //   if (Math.abs(DifChange) <= difChangeThresh){
-    //     m_tr = 0.1;
-    //     rClockwise = 1;
-    //   }
-    //   else if(DifChange > difChangeThresh){
-    //     rClockwise = -rClockwise;
-    //     m_tr = Math.tanh(DifChange * rClockwise) * rotConst;
-    //   } else {
-    //     m_tr = Math.tanh(DifChange * rClockwise) * rotConst;
-    //   }
+    // if (Math.abs(ts) >= rotThresh) {
+    //   m_ts = Math.tanh((90-ts)) * rotConstant;
     // }
-  
     if (Math.abs(tx) >= xThresh){
         m_tx = Math.tanh(tx/4) * xConstant; 
       }
     if (Math.abs(ty) <= yThresh){
         m_ty = Math.tanh(10/ty) * yConstant;
       }
-      drive(m_ty, m_tx * -1, m_tr, false);
+
+    
+      drive(m_ty, m_tx * -1, 0, false);
 
   }
 
 
-  }
-
+}
