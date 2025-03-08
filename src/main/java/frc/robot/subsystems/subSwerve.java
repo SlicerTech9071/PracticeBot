@@ -229,27 +229,29 @@ public class subSwerve extends SubsystemBase {
     newDif = LimelightHelpers.getT2DArray("limelight")[12] - LimelightHelpers.getT2DArray("limelight")[13];
   
 
-    tx = LimelightHelpers.getT2DArray("limelight")[4];
+    tx = LimelightHelpers.getTX("limelight");
     ty = LimelightHelpers.getTA("limelight");
     DifChange = oldDif - newDif;
 
 
     if (tx == 0 || ty == 0){
+      m_ty = 0;
+      m_tx = 0;
       return;
     }
 
-    if (newDif >= rotThresh){
-      if (Math.abs(DifChange) <= difChangeThresh){
-        m_tr = 0.1;
-        rClockwise = 1;
-      }
-      else if(DifChange > difChangeThresh){
-        rClockwise = -rClockwise;
-        m_tr = Math.tanh(DifChange * rClockwise) * rotConst;
-      } else {
-        m_tr = Math.tanh(DifChange * rClockwise) * rotConst;
-      }
-    }
+    // if (newDif >= rotThresh){
+    //   if (Math.abs(DifChange) <= difChangeThresh){
+    //     m_tr = 0.1;
+    //     rClockwise = 1;
+    //   }
+    //   else if(DifChange > difChangeThresh){
+    //     rClockwise = -rClockwise;
+    //     m_tr = Math.tanh(DifChange * rClockwise) * rotConst;
+    //   } else {
+    //     m_tr = Math.tanh(DifChange * rClockwise) * rotConst;
+    //   }
+    // }
   
     if (Math.abs(tx) >= xThresh){
         m_tx = Math.tanh(tx/4) * xConstant; 
