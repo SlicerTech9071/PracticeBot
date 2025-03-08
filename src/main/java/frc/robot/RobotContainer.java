@@ -34,6 +34,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import java.util.List;
 
+import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 
 public class RobotContainer {
@@ -47,12 +48,17 @@ public class RobotContainer {
   private final subIntakeArm intakeArm = new subIntakeArm();
   private final subIntakeWheels intakeWheels = new subIntakeWheels();
 
+  NamedCommands test = new NamedCommands();
+
 
   // The driver's controller
   CommandXboxController driverOne = new CommandXboxController(OIConstants.kDriverControllerPort);
   CommandXboxController driverTwo = new CommandXboxController(OIConstants.kOperatorControllerPort);
 
   public RobotContainer() {
+
+    NamedCommands.registerCommand("CoralOut", new RunCommand(() -> intakeArm.TeleOp(-0.5), intakeArm).withTimeout(1));
+
     ConfigureDriverOne();
     ConfigureDriverTwo();      
   }
@@ -88,13 +94,12 @@ public class RobotContainer {
       SmartDashboard.putNumber("SideDiff", LimelightHelpers.getT2DArray("limelight")[12]-LimelightHelpers.getT2DArray("limelight")[13]);
       //SmartDashboard.putNumber("LimilightSkew", table.getEntry("t2d")[0].getAsDouble(0));
     } catch (Exception e){
-      System.out.println("error");
     }
   }
   
   public Command getAutonomousCommand() {
     
-    return new PathPlannerAuto("Auto1");
+    return new PathPlannerAuto("Auto2");
     
     // return Commands.sequence(
     //   // Drive forward

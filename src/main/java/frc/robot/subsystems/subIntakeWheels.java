@@ -23,12 +23,12 @@ public class subIntakeWheels extends SubsystemBase {
     leftConfig
       .inverted(false)
       .idleMode(IdleMode.kBrake)
-      .smartCurrentLimit(20);
+      .smartCurrentLimit(30);
     rightConfig = new SparkMaxConfig();
     rightConfig
       .inverted(false)
       .idleMode(IdleMode.kBrake)
-      .smartCurrentLimit(20);
+      .smartCurrentLimit(30);
     leftMotor.configure(leftConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
     rightMotor.configure(leftConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
   }
