@@ -313,11 +313,10 @@ public class subSwerve extends SubsystemBase {
     return m_gyro.getRate() * (DriveConstants.kGyroReversed ? -1.0 : 1.0);
   }
 
-  public void Center(double xConstant, double xThresh, double yConstant, double yThresh, double rotConstant, double rotThresh){
+  public void Center(double xConstant, double xThresh, double yConstant, double yThresh){
 
     double m_tx = 0;
     double m_ty = 0;
-    double m_ts = 0;
 
     tx = LimelightHelpers.getTX(getName());
     ty = LimelightHelpers.getTA(getName());
@@ -326,9 +325,6 @@ public class subSwerve extends SubsystemBase {
       return;
     }
 
-    // if (Math.abs(ts) >= rotThresh) {
-    //   m_ts = Math.tanh((90-ts)) * rotConstant;
-    // }
     if (Math.abs(tx) >= xThresh){
         m_tx = Math.tanh(tx/4) * xConstant; 
       }
@@ -341,5 +337,15 @@ public class subSwerve extends SubsystemBase {
 
   }
 
+  public boolean CenterThresh(double xThresh, double yThresh){
+    
+    tx = LimelightHelpers.getTX(getName());
+    ty = LimelightHelpers.getTA(getName());
+
+    if (Math.abs(tx) >= xThresh && Math.abs(ty) <= yThresh){
+      return true;
+    }
+    else{return false;}
+  }
 
 }

@@ -48,8 +48,6 @@ public class RobotContainer {
   private final subIntakeArm intakeArm = new subIntakeArm();
   private final subIntakeWheels intakeWheels = new subIntakeWheels();
 
-  NamedCommands test = new NamedCommands();
-
 
   // The driver's controller
   CommandXboxController driverOne = new CommandXboxController(OIConstants.kDriverControllerPort);
@@ -58,6 +56,7 @@ public class RobotContainer {
   public RobotContainer() {
 
     NamedCommands.registerCommand("CoralOut", new RunCommand(() -> intakeArm.TeleOp(-0.5), intakeArm).withTimeout(1));
+    NamedCommands.registerCommand("Center", new RunCommand(() -> m_robotDrive.Center(0.1, 0.85, 0.2, 10), m_robotDrive).until(() -> m_robotDrive.CenterThresh(0.85, 10)));
 
     ConfigureDriverOne();
     ConfigureDriverTwo();      
@@ -74,7 +73,7 @@ public class RobotContainer {
             m_robotDrive));
 
     driverOne.a().whileTrue(new InstantCommand(()->m_robotDrive.zeroHeading()));
-    driverOne.y().whileTrue(new RunCommand(() -> m_robotDrive.Center(0.1, 0.85, 0.2, 10, 0.01, 1), m_robotDrive));
+    driverOne.y().whileTrue(new RunCommand(() -> m_robotDrive.Center(0.1, 0.85, 0.2, 10), m_robotDrive));
   }
 
   private void ConfigureDriverTwo() {
@@ -99,7 +98,7 @@ public class RobotContainer {
   
   public Command getAutonomousCommand() {
     
-    return new PathPlannerAuto("Auto2");
+    return new PathPlannerAuto("ReefTest");
     
     // return Commands.sequence(
     //   // Drive forward
