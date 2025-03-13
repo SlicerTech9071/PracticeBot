@@ -324,7 +324,6 @@ public class subSwerve extends SubsystemBase {
     if (tx == 0 || ty == 0){
       return;
     }
-
     if (Math.abs(tx) >= xThresh){
         m_tx = Math.tanh(tx/4) * xConstant; 
       }
