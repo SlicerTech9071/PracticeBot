@@ -320,7 +320,6 @@ public class subSwerve extends SubsystemBase {
 
     tx = LimelightHelpers.getTX(getName());
     ty = LimelightHelpers.getTA(getName());
-    ts = LimelightHelpers.getT2DArray(getName())[16];
     if (tx == 0 || ty == 0){
       return;
     }

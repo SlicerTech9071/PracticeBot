@@ -45,14 +45,10 @@ public class subIntakeArm extends SubsystemBase {
 
   public void TeleOp(double speed){
     speed = speed * Constants.IntakeArm.IntakeArmSpeed;
-    if( leftEncoder.getPosition() > 0.6){
-      leftMotor.set(-0.05);
-      rightMotor.set(0.05);
-    }
-    else if (speed == 0 && leftEncoder.getPosition() >= 0.05){
+    if (speed == 0){
       leftMotor.setVoltage(0.3);
       rightMotor.setVoltage(-0.3);
-    }else if (leftEncoder.getPosition() < 0.6){
+    }else{
       leftMotor.set(speed);
       rightMotor.set(-speed);
     }

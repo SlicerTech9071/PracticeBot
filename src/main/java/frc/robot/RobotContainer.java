@@ -98,7 +98,7 @@ public class RobotContainer {
   
   public Command getAutonomousCommand() {
     
-    return new PathPlannerAuto("ReefTest");
+    return new PathPlannerAuto("CenterReef");
     
     // return Commands.sequence(
     //   // Drive forward
