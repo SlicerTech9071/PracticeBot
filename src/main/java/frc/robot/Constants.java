@@ -126,7 +126,7 @@ public final class Constants {
     public static final int leftMotorID = 5;
     public static final int rightMotorID = 4;
   
-    public static final double IntakeArmSpeed = 0.1;
+    public static final double IntakeArmSpeed = 0.25;
   }
   public static final class IntakeWheels{
     public static final int bottomMotorID = 9;

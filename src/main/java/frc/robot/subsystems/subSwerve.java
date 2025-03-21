@@ -321,6 +321,7 @@ public class subSwerve extends SubsystemBase {
     tx = LimelightHelpers.getTX("limelight");
     ty = LimelightHelpers.getTA("limelight");
     if (tx == 0 || ty == 0){
+      drive(0, 0, 0, false);
       return;
     }
     if (Math.abs(tx) >= xThresh){

@@ -12,6 +12,7 @@ import com.revrobotics.AbsoluteEncoder;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.spark.SparkMax;
 
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -45,14 +46,14 @@ public class subIntakeArm extends SubsystemBase {
 
   @Override
   public void periodic() {
-    SmartDashboard.putNumber("Intake Arm Encoder", leftEncoder.getPosition());
+    SmartDashboard.putNumber("Intake Arm Encoder", GetPos().getDegrees());
   }
 
   public void TeleOp(double speed){
     speed = speed * Constants.IntakeArm.IntakeArmSpeed;
     if (speed == 0){
-      leftMotor.setVoltage(-0.25);
-      rightMotor.setVoltage(0.25);
+      leftMotor.setVoltage(-0.3);
+      rightMotor.setVoltage(0.3);
     }else{
       leftMotor.set(-speed);
       rightMotor.set(speed);
@@ -61,5 +62,19 @@ public class subIntakeArm extends SubsystemBase {
   public void stop(){
     leftMotor.stopMotor();
     rightMotor.stopMotor();
+  }
+
+  public Rotation2d GetPos(){
+    return new Rotation2d(leftEncoder.getPosition());
+  }
+
+  public void Pos1(){
+    
+    double angle = GetPos().getDegrees();
+    double speed = 51 - angle;
+    if (angle <= 50){
+      leftMotor.set(-Math.tanh(speed)/10);
+      rightMotor.set(Math.tanh(speed)/10);
+    }
   }
 }

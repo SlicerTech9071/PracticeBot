@@ -8,6 +8,7 @@ import frc.robot.subsystems.subIntakeWheels;
 public class cmdIntakeWheels_TeleOp extends Command {
   subIntakeWheels intakeWheels;
   DoubleSupplier speed;
+  boolean intook;
   public cmdIntakeWheels_TeleOp(subIntakeWheels intakeWheels, DoubleSupplier speed) {
     this.intakeWheels = intakeWheels;
     this.speed = speed;

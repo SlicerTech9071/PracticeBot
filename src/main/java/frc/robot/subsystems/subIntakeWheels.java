@@ -23,12 +23,12 @@ public class subIntakeWheels extends SubsystemBase {
     bottomConfig
       .inverted(false)
       .idleMode(IdleMode.kBrake)
-      .smartCurrentLimit(30);
+      .smartCurrentLimit(40);
     topConfig = new SparkMaxConfig();
     topConfig
       .inverted(false)
       .idleMode(IdleMode.kBrake)
-      .smartCurrentLimit(30);
+      .smartCurrentLimit(40);
     bottomMotor.configure(bottomConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
     topMotor.configure(topConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
   }
@@ -40,12 +40,17 @@ public class subIntakeWheels extends SubsystemBase {
 
   public void TeleOp(double speed){
     
-
     bottomMotor.set(speed);
     topMotor.set(-speed);
 
 
   }
+
+  public void Hold(double voltage){
+    bottomMotor.setVoltage(-voltage);
+    topMotor.setVoltage(voltage);
+  }
+
   public void stop(){
     bottomMotor.stopMotor();
     topMotor.stopMotor();

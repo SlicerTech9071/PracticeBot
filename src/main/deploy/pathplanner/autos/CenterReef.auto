@@ -5,27 +5,21 @@
     "data": {
       "commands": [
         {
+          "type": "named",
+          "data": {
+            "name": "ArmNudge"
+          }
+        },
+        {
           "type": "path",
           "data": {
             "pathName": "CenterPath"
           }
         },
         {
-          "type": "wait",
-          "data": {
-            "waitTime": 0.5
-          }
-        },
-        {
           "type": "named",
           "data": {
             "name": "Center"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "CoralOut"
           }
         }
       ]
