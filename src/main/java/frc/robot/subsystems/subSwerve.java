@@ -318,8 +318,8 @@ public class subSwerve extends SubsystemBase {
     double m_tx = 0;
     double m_ty = 0;
 
-    tx = LimelightHelpers.getTX(getName());
-    ty = LimelightHelpers.getTA(getName());
+    tx = LimelightHelpers.getTX("limelight");
+    ty = LimelightHelpers.getTA("limelight");
     if (tx == 0 || ty == 0){
       return;
     }

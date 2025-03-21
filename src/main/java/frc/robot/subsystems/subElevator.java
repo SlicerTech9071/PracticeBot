@@ -58,6 +58,14 @@ public class subElevator extends SubsystemBase {
     }
   }
 
+  public void AutoOp(double speed){
+    speed = speed * Constants.Elevator.elevatorSpeed;
+
+    leftMotor.set(speed);
+    rightMotor.set(-speed);
+
+  }
+
   public void stop(){
     leftMotor.stopMotor();
     rightMotor.stopMotor();

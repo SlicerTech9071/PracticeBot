@@ -12,25 +12,25 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class subIntakeWheels extends SubsystemBase {
-  SparkMax leftMotor;
-  SparkMax rightMotor;
-  SparkMaxConfig leftConfig;
-  SparkMaxConfig rightConfig;
+  SparkMax bottomMotor;
+  SparkMax topMotor;
+  SparkMaxConfig bottomConfig;
+  SparkMaxConfig topConfig;
   public subIntakeWheels() {
-    leftMotor = new SparkMax(Constants.IntakeWheels.leftMotorID, MotorType.kBrushless);
-    rightMotor = new SparkMax(Constants.IntakeWheels.rightMotorID, MotorType.kBrushless);
-    leftConfig = new SparkMaxConfig();
-    leftConfig
+    bottomMotor = new SparkMax(Constants.IntakeWheels.bottomMotorID, MotorType.kBrushless);
+    topMotor = new SparkMax(Constants.IntakeWheels.topMotorID, MotorType.kBrushless);
+    bottomConfig = new SparkMaxConfig();
+    bottomConfig
       .inverted(false)
       .idleMode(IdleMode.kBrake)
       .smartCurrentLimit(30);
-    rightConfig = new SparkMaxConfig();
-    rightConfig
+    topConfig = new SparkMaxConfig();
+    topConfig
       .inverted(false)
       .idleMode(IdleMode.kBrake)
       .smartCurrentLimit(30);
-    leftMotor.configure(leftConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-    rightMotor.configure(leftConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+    bottomMotor.configure(bottomConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+    topMotor.configure(topConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
   }
 
   @Override
@@ -41,13 +41,13 @@ public class subIntakeWheels extends SubsystemBase {
   public void TeleOp(double speed){
     
 
-    leftMotor.set(speed);
-    rightMotor.set(-speed);
+    bottomMotor.set(speed);
+    topMotor.set(-speed);
 
 
   }
   public void stop(){
-    leftMotor.stopMotor();
-    rightMotor.stopMotor();
+    bottomMotor.stopMotor();
+    topMotor.stopMotor();
   }
 }

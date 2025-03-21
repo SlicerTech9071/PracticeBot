@@ -55,8 +55,10 @@ public class RobotContainer {
 
   public RobotContainer() {
 
-    NamedCommands.registerCommand("CoralOut", new RunCommand(() -> intakeArm.TeleOp(-0.5), intakeArm).withTimeout(1));
-    NamedCommands.registerCommand("Center", new RunCommand(() -> m_robotDrive.Center(0.1, 0.85, 0.2, 10), m_robotDrive).until(() -> m_robotDrive.CenterThresh(0.85, 10)));
+    NamedCommands.registerCommand("CoralOut", new RunCommand(() -> intakeArm.TeleOp(-0.7), intakeArm).withTimeout(1));
+    NamedCommands.registerCommand("Center", new RunCommand(() -> m_robotDrive.Center(0.075, 0.85, 0.15, 9.5), m_robotDrive).onlyWhile(() -> m_robotDrive.CenterThresh(0.85, 9.5)));
+    NamedCommands.registerCommand("ElevatorUp", new RunCommand(() -> elevator.AutoOp(0.5), elevator).withTimeout(1.5));
+
 
     ConfigureDriverOne();
     ConfigureDriverTwo();      
@@ -73,14 +75,14 @@ public class RobotContainer {
             m_robotDrive));
 
     driverOne.a().whileTrue(new InstantCommand(()->m_robotDrive.zeroHeading()));
-    driverOne.y().whileTrue(new RunCommand(() -> m_robotDrive.Center(0.1, 0.85, 0.2, 10), m_robotDrive));
+    driverOne.y().whileTrue(new RunCommand(() -> m_robotDrive.Center(0.05, 0.5, 0.1, 10), m_robotDrive));
   }
 
   private void ConfigureDriverTwo() {
     elevator.setDefaultCommand(new cmdElevator_TeleOp(elevator, () -> driverTwo.getLeftY() * -1));
-    intakeArm.setDefaultCommand(new cmdIntakeArm_TeleOp(intakeArm, ()-> driverTwo.getRightY()*-1));
-    driverTwo.rightBumper().whileTrue(new cmdIntakeWheels_TeleOp(intakeWheels, ()-> 0.80));
-    driverTwo.leftBumper().whileTrue(new cmdIntakeWheels_TeleOp(intakeWheels, ()->-0.50));
+    intakeArm.setDefaultCommand(new cmdIntakeArm_TeleOp(intakeArm, ()-> driverTwo.getRightY() * -1));
+    driverTwo.rightBumper().whileTrue(new cmdIntakeWheels_TeleOp(intakeWheels, ()-> .5));
+    driverTwo.leftBumper().whileTrue(new cmdIntakeWheels_TeleOp(intakeWheels, ()->-0.30));
     //driverTwo.rightTrigger().whileTrue(new cmdCoral_TeleOp(coral, ()->0.4));
     //driverTwo.leftTrigger().whileTrue(new cmdCoral_TeleOp(coral, ()->-0.4));
   }

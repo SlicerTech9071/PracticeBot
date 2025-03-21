@@ -14,12 +14,12 @@ public class subCoral extends SubsystemBase {
   SparkMax coralMotor;
   SparkMaxConfig coralConfig;
   public subCoral() {
-    coralMotor = new SparkMax(Constants.CoralWheel.MotorID, MotorType.kBrushless);
-    coralConfig = new SparkMaxConfig();
-    coralConfig
-      .inverted(false)
-      .idleMode(IdleMode.kBrake);
-    coralMotor.configure(coralConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+    // coralMotor = new SparkMax(Constants.CoralWheel.MotorID, MotorType.kBrushless);
+    // coralConfig = new SparkMaxConfig();
+    // coralConfig
+    //   .inverted(false)
+    //   .idleMode(IdleMode.kBrake);
+    // coralMotor.configure(coralConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
   }
 
   @Override
