@@ -58,7 +58,8 @@ public class RobotContainer {
     NamedCommands.registerCommand("CoralOut", new RunCommand(() -> intakeArm.TeleOp(-0.7), intakeArm).withTimeout(1));
     NamedCommands.registerCommand("Center", new RunCommand(() -> m_robotDrive.Center(0.075, 0.85, 0.15, 9.5), m_robotDrive).onlyWhile(() -> m_robotDrive.CenterThresh(0.85, 9.5)));
     NamedCommands.registerCommand("ElevatorUp", new RunCommand(() -> elevator.AutoOp(0.5), elevator).withTimeout(1.5));
-    NamedCommands.registerCommand("ArmNudge", new RunCommand(() -> intakeArm.TeleOp(-0.1), intakeArm).withTimeout(0.5));
+    NamedCommands.registerCommand("ArmNudge", new RunCommand(() -> intakeArm.TeleOp(-0.1), intakeArm).withTimeout(1));
+    NamedCommands.registerCommand("ArmHold", new RunCommand(() -> intakeArm.Hold(0.3)));
 
     ConfigureDriverOne();
     ConfigureDriverTwo();      
