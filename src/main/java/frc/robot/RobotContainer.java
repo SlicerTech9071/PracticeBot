@@ -58,7 +58,7 @@ public class RobotContainer {
     NamedCommands.registerCommand("CoralOut", new RunCommand(() -> intakeArm.TeleOp(-0.7), intakeArm).withTimeout(1));
     NamedCommands.registerCommand("Center", new RunCommand(() -> m_robotDrive.Center(0.075, 0.85, 0.15, 9.5), m_robotDrive).onlyWhile(() -> m_robotDrive.CenterThresh(0.85, 9.5)));
     NamedCommands.registerCommand("ElevatorUp", new RunCommand(() -> elevator.AutoOp(0.5), elevator).withTimeout(1.5));
-    NamedCommands.registerCommand("ArmNudge", new RunCommand(() -> intakeArm.TeleOp(-0.1), intakeArm).until(() -> intakeArm.GetPos().getDegrees() <= 51));
+    NamedCommands.registerCommand("ArmNudge", new RunCommand(() -> intakeArm.TeleOp(-0.1), intakeArm).withTimeout(0.5));
 
     ConfigureDriverOne();
     ConfigureDriverTwo();      
@@ -83,7 +83,7 @@ public class RobotContainer {
     intakeArm.setDefaultCommand(new cmdIntakeArm_TeleOp(intakeArm, ()-> driverTwo.getRightY() * -1));
     driverTwo.rightBumper().whileTrue(new cmdIntakeWheels_TeleOp(intakeWheels, ()->1));
     driverTwo.leftBumper().whileTrue(new cmdIntakeWheels_TeleOp(intakeWheels, ()->-0.30));
-    driverTwo.y().whileTrue(new RunCommand(() -> intakeArm.Pos1(), intakeArm));
+    //driverTwo.y().whileTrue(new RunCommand(() -> intakeArm.Pos1(), intakeArm));
     // //driverTwo.rightTrigger().whileTrue(new cmdCoral_TeleOp(coral, ()->0.4));
     //driverTwo.leftTrigger().whileTrue(new cmdCoral_TeleOp(coral, ()->-0.4));
   }

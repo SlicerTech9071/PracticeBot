@@ -11,15 +11,15 @@
           }
         },
         {
-          "type": "path",
+          "type": "wait",
           "data": {
-            "pathName": "CenterPath"
+            "waitTime": 10.0
           }
         },
         {
-          "type": "named",
+          "type": "path",
           "data": {
-            "name": "Center"
+            "pathName": "CenterPath"
           }
         }
       ]

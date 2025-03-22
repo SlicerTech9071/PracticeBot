@@ -46,6 +46,8 @@ public class subIntakeArm extends SubsystemBase {
 
   @Override
   public void periodic() {
+    
+
     SmartDashboard.putNumber("Intake Arm Encoder", GetPos().getDegrees());
   }
 
@@ -59,6 +61,12 @@ public class subIntakeArm extends SubsystemBase {
       rightMotor.set(speed);
     }
   }
+
+public void Hold(double voltage){
+  leftMotor.setVoltage(-voltage);
+  rightMotor.setVoltage(voltage);
+}
+
   public void stop(){
     leftMotor.stopMotor();
     rightMotor.stopMotor();
